@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "io.github.keithintrinidad.twa",
+        "sha256_cert_fingerprints": ["52:DE:C8:65:B5:10:99:7B:15:3B:7E:B8:E8:26:32:BA:17:08:37:86:07:03:FE:0E:A1:D2:D5:94:27:30:C6:11"]
+      }
+    }]
