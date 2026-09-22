@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Rosary — A Companion for Prayer</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#6E1F2E">
+<link rel="icon" href="icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Rosary">
+<script>
+(function(){
+  try {
+    var stored = localStorage.getItem('rosary-theme');
+    var theme = stored || ((window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+  } catch(e) {}
+})();
+</script>
+<style>
+  :root {
+    --paper: #FDFCFA;
+    --paper-2: #F4EFE6;
+    --ink: #2A231D;
+    --ink-soft: #6B5D4C;
+    --burgundy: #6E1F2E;
+    --burgundy-deep: #4E141F;
+    --gold: #93733C;
+    --gold-bright: #B4924E;
+    --rule: rgba(42,35,29,0.13);
+    --shadow: rgba(42,35,29,0.16);
+    --joyful: #93733C;
+    --sorrowful: #6E1F2E;
+    --glorious: #A9863F;
+    --luminous: #384F72;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #1D1814;
+      --paper-2: #26201A;
+      --ink: #ECE1CC;
+      --ink-soft: #B6A88F;
+      --burgundy: #C6647A;
+      --burgundy-deep: #E0879A;
+      --gold: #D2B26C;
+      --gold-bright: #E4C688;
+      --rule: rgba(236,225,204,0.16);
+      --shadow: rgba(0,0,0,0.55);
+      --joyful: #D2B26C;
+      --sorrowful: #C6647A;
+      --glorious: #E0C689;
+      --luminous: #7C97C4;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #1D1814;
+    --paper-2: #26201A;
+    --ink: #ECE1CC;
+    --ink-soft: #B6A88F;
+    --burgundy: #C6647A;
+    --burgundy-deep: #E0879A;
+    --gold: #D2B26C;
+    --gold-bright: #E4C688;
+    --rule: rgba(236,225,204,0.16);
+    --shadow: rgba(0,0,0,0.55);
+    --joyful: #D2B26C;
+    --sorrowful: #C6647A;
+    --glorious: #E0C689;
+    --luminous: #7C97C4;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', 'PT Serif', serif;
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+    touch-action: pan-y;
+  }
+  :focus-visible { outline: 2px solid var(--gold-bright); outline-offset: 3px; }
+
+  .stage {
+    position: relative;
+    height: 100dvh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 1400px;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+
+  .sheet {
+    position: relative;
+    width: min(92vw, 480px);
+    height: min(86dvh, 780px);
+    background:
+      linear-gradient(180deg, var(--paper) 0%, var(--paper) 100%);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    box-shadow: 0 18px 40px -18px var(--shadow), inset 0 0 0 1px rgba(0,0,0,0.02);
+    display: flex;
+    flex-direction: column;
+    will-change: transform, opacity;
+    transform-origin: center;
+  }
+  .sheet::before {
+    content: "";
+    position: absolute;
+    inset: 10px;
+    border: 1px solid var(--rule);
+    pointer-events: none;
+  }
+  .sheet.tone-joyful::after,
+  .sheet.tone-sorrowful::after,
+  .sheet.tone-glorious::after,
+  .sheet.tone-luminous::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 22px; right: 22px;
+    height: 3px;
+  }
+  .sheet.tone-joyful::after { background: var(--joyful); }
+  .sheet.tone-sorrowful::after { background: var(--sorrowful); }
+  .sheet.tone-glorious::after { background: var(--glorious); }
+  .sheet.tone-luminous::after { background: var(--luminous); }
+
+  @keyframes flipNext {
+    from { transform: rotateY(-10deg) scale(.97); opacity: 0; }
+    to   { transform: rotateY(0) scale(1); opacity: 1; }
+  }
+  @keyframes flipPrev {
+    from { transform: rotateY(10deg) scale(.97); opacity: 0; }
+    to   { transform: rotateY(0) scale(1); opacity: 1; }
+  }
+  .sheet.anim-next { animation: flipNext .38s ease both; }
+  .sheet.anim-prev { animation: flipPrev .38s ease both; }
+  @media (prefers-reduced-motion: reduce) {
+    .sheet.anim-next, .sheet.anim-prev { animation: none; }
+  }
+
+  .sheet-inner {
+    flex: 1;
+    overflow-y: auto;
+    padding: 34px 30px 20px;
+    scrollbar-width: thin;
+  }
+
+  .eyebrow {
+    font-variant: small-caps;
+    letter-spacing: .04em;
+    font-size: 15px;
+    color: var(--ink-soft);
+    margin: 0 0 6px;
+  }
+  h1.page-title {
+    font-size: 30px;
+    line-height: 1.15;
+    margin: 0 0 4px;
+    color: var(--ink);
+    font-weight: 400;
+  }
+  .meta {
+    font-size: 14px;
+    color: var(--ink-soft);
+    font-style: italic;
+    margin: 0 0 18px;
+  }
+  .rule {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 0 0 18px;
+  }
+  .body-text p {
+    font-size: 18px;
+    line-height: 1.62;
+    margin: 0 0 14px;
+    max-width: 62ch;
+  }
+  .cover-quick {
+    margin-top: 22px;
+    border-top: 1px solid var(--rule);
+    padding-top: 16px;
+  }
+  .cover-quick .row {
+    display: flex;
+    justify-content: space-between;
+    padding: 7px 0;
+    font-size: 15px;
+    border-bottom: 1px dotted var(--rule);
+  }
+  .cover-quick .row span:first-child { color: var(--ink-soft); }
+  .cover-quick .row.tone-joyful span:last-child { color: var(--joyful); }
+  .cover-quick .row.tone-sorrowful span:last-child { color: var(--sorrowful); }
+  .cover-quick .row.tone-glorious span:last-child { color: var(--glorious); }
+  .cover-quick .row.tone-luminous span:last-child { color: var(--luminous); }
+  .cover-quick .row {
+    width: 100%;
+    background: none;
+    border: none;
+    border-bottom: 1px dotted var(--rule);
+    font-family: inherit;
+    cursor: pointer;
+    text-align: left;
+  }
+  .cover-quick .row:last-child { border-bottom: none; }
+  .cover-quick .row:hover span:last-child,
+  .cover-quick .row:focus-visible span:last-child {
+    text-decoration: underline;
+  }
+
+  .steps {
+    margin: 0;
+    padding-left: 22px;
+  }
+  .steps li {
+    font-size: 17px;
+    line-height: 1.55;
+    margin-bottom: 12px;
+    padding-left: 4px;
+  }
+
+  .mysteries {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .mysteries li {
+    border-bottom: 1px dotted var(--rule);
+  }
+  .mysteries li:last-child { border-bottom: none; }
+  .m-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    padding: 14px 0;
+    background: none;
+    border: none;
+    font-family: inherit;
+    text-align: left;
+    color: inherit;
+    cursor: pointer;
+  }
+  .m-num {
+    font-size: 20px;
+    color: var(--tone, var(--gold));
+    min-width: 22px;
+    line-height: 1.4;
+    flex: none;
+  }
+  .m-body { flex: 1; min-width: 0; }
+  .m-body h3 {
+    margin: 0 0 3px;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.3;
+  }
+  .m-body p {
+    margin: 0;
+    font-size: 14.5px;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+  .m-chevron {
+    flex: none;
+    width: 17px;
+    height: 17px;
+    color: var(--ink-soft);
+    transition: transform .25s ease;
+  }
+  .mysteries li.open .m-chevron { transform: rotate(180deg); }
+  .m-desc {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height .32s ease, opacity .25s ease, margin .32s ease;
+    margin: 0 0 0 36px;
+  }
+  .m-desc p {
+    margin: 0 0 14px;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--ink);
+    max-width: 56ch;
+  }
+  .mysteries li.open .m-desc {
+    max-height: 220px;
+    opacity: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .m-desc { transition: none; }
+    .m-chevron { transition: none; }
+  }
+  .tone-joyful .m-num { color: var(--joyful); }
+  .tone-sorrowful .m-num { color: var(--sorrowful); }
+  .tone-glorious .m-num { color: var(--glorious); }
+  .tone-luminous .m-num { color: var(--luminous); }
+
+  /* footer / wayfinding */
+  .footer-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 22px 16px;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    letter-spacing: .02em;
+  }
+  .page-count { font-variant-numeric: tabular-nums; }
+
+  /* edge nav */
+  .edge-btn {
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 56px;
+    display: flex;
+    align-items: center;
+    background: transparent;
+    border: none;
+    color: var(--ink-soft);
+    cursor: pointer;
+    opacity: .55;
+    transition: opacity .15s ease;
+    z-index: 3;
+  }
+  .edge-btn:hover, .edge-btn:focus-visible { opacity: 1; }
+  .edge-btn.prev { left: max(2px, calc(50% - 260px)); justify-content: flex-start; padding-left: 6px; }
+  .edge-btn.next { right: max(2px, calc(50% - 260px)); justify-content: flex-end; padding-right: 6px; }
+  .edge-btn svg { width: 20px; height: 20px; }
+  @media (max-width: 560px) {
+    .edge-btn.prev { left: 0; }
+    .edge-btn.next { right: 0; }
+  }
+
+  /* FAB */
+  .fab {
+    position: fixed;
+    left: 50%;
+    bottom: calc(18px + env(safe-area-inset-bottom));
+    transform: translateX(-50%);
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: var(--burgundy);
+    border: 1px solid var(--burgundy-deep);
+    box-shadow: 0 8px 20px -6px var(--shadow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 5;
+  }
+  .fab svg { width: 22px; height: 22px; stroke: var(--paper); }
+
+  .theme-toggle {
+    position: fixed;
+    top: calc(14px + env(safe-area-inset-top));
+    right: calc(14px + env(safe-area-inset-right));
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    box-shadow: 0 4px 14px -6px var(--shadow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 5;
+  }
+  .theme-toggle svg { width: 19px; height: 19px; stroke: var(--ink-soft); }
+
+  /* overlay menu */
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .25s ease;
+    z-index: 10;
+    display: flex;
+    align-items: flex-end;
+  }
+  .overlay.open { opacity: 1; pointer-events: auto; }
+  .menu-sheet {
+    background: var(--paper);
+    width: 100%;
+    max-height: 78dvh;
+    border-top: 1px solid var(--rule);
+    border-radius: 16px 16px 0 0;
+    padding: 18px 0 calc(14px + env(safe-area-inset-bottom));
+    transform: translateY(100%);
+    transition: transform .3s ease;
+    overflow-y: auto;
+  }
+  .overlay.open .menu-sheet { transform: translateY(0); }
+  .menu-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 22px 12px;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 6px;
+  }
+  .menu-head h2 {
+    font-size: 19px;
+    font-weight: 400;
+    margin: 0;
+  }
+  .menu-close {
+    background: none;
+    border: none;
+    color: var(--ink-soft);
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 4px 8px;
+  }
+  .menu-group-label {
+    font-variant: small-caps;
+    letter-spacing: .04em;
+    font-size: 13px;
+    color: var(--ink-soft);
+    padding: 14px 22px 4px;
+  }
+  .menu-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    background: none;
+    border: none;
+    text-align: left;
+    padding: 11px 22px;
+    font-family: inherit;
+    font-size: 17px;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .menu-item:hover, .menu-item:focus-visible { background: var(--paper-2); }
+  .menu-item .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--gold);
+    flex: none;
+    margin-right: 12px;
+  }
+  .menu-item-label { flex: 1; }
+  .menu-item .day-tag {
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+  .menu-item.active { color: var(--burgundy); }
+</style>
+</head>
+<body>
+
+<div class="stage">
+  <button class="edge-btn prev" id="btnPrev" aria-label="Previous page">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 5l-7 7 7 7"/></svg>
+  </button>
+
+  <div class="sheet" id="sheet">
+    <div class="sheet-inner" id="sheetInner"></div>
+    <div class="footer-bar">
+      <span id="pageLabel"></span>
+      <span class="page-count" id="pageCount"></span>
+    </div>
+  </div>
+
+  <button class="edge-btn next" id="btnNext" aria-label="Next page">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 5l7 7-7 7"/></svg>
+  </button>
+</div>
+
+<button class="theme-toggle" id="themeToggle" aria-label="Switch theme">
+  <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></svg>
+</button>
+
+<button class="fab" id="fabMenu" aria-label="Jump to a prayer or mystery">
+  <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round">
+    <circle cx="12" cy="4.5" r="1.4"/>
+    <circle cx="17.5" cy="7.5" r="1.4"/>
+    <circle cx="19" cy="13.5" r="1.4"/>
+    <circle cx="15.5" cy="18.5" r="1.4"/>
+    <circle cx="8.5" cy="18.5" r="1.4"/>
+    <circle cx="5" cy="13.5" r="1.4"/>
+    <circle cx="6.5" cy="7.5" r="1.4"/>
+    <path d="M12 4.5v15"/>
+  </svg>
+</button>
+
+<div class="overlay" id="overlay">
+  <div class="menu-sheet" id="menuSheet">
+    <div class="menu-head">
+      <h2>Go to&hellip;</h2>
+      <button class="menu-close" id="menuClose" aria-label="Close">&times;</button>
+    </div>
+    <div id="menuList"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  function mystery(name, fruit, desc){ return {name:name, fruit:fruit, desc:desc}; }
+
+  var pages = [
+    {
+      id: "cover", group: "start", nav: "Cover", tone: "",
+      eyebrow: "A Companion for Prayer",
+      title: "The Rosary",
+      meta: "Tap the arrows, swipe, or use the menu below to move around",
+      render: function(){
+        return (
+          '<div class="body-text">' +
+          '<p>The Rosary joins vocal prayer to quiet meditation &mdash; while the lips repeat the Our Father and Hail Mary, the mind walks through a mystery of the life of Christ.</p>' +
+          '<p>This little book holds every prayer in order, and each set of mysteries on its own page. Use the round button to jump straight to what you need.</p>' +
+          '</div>' +
+          '<div class="cover-quick">' +
+          '<button class="row tone-joyful" data-goto="joyful"><span>Monday &amp; Saturday</span><span>Joyful Mysteries</span></button>' +
+          '<button class="row tone-sorrowful" data-goto="sorrowful"><span>Tuesday &amp; Friday</span><span>Sorrowful Mysteries</span></button>' +
+          '<button class="row tone-glorious" data-goto="glorious"><span>Wednesday &amp; Sunday</span><span>Glorious Mysteries</span></button>' +
+          '<button class="row tone-luminous" data-goto="luminous"><span>Thursday</span><span>Luminous Mysteries</span></button>' +
+          '</div>'
+        );
+      }
+    },
+    {
+      id: "sign-of-cross", group: "prayer", nav: "Sign of the Cross", tone: "",
+      eyebrow: "Opening", title: "The Sign of the Cross", meta: "Made on the crucifix, to begin",
+      lines: ["In the Name of the Father, and of the Son, and of the Holy Spirit. Amen."]
+    },
+    {
+      id: "creed", group: "prayer", nav: "Apostles&rsquo; Creed", tone: "",
+      eyebrow: "Prayed on the crucifix", title: "The Apostles&rsquo; Creed", meta: "",
+      lines: [
+        "I believe in God, the Father almighty, Creator of heaven and earth, and in Jesus Christ, his only Son, our Lord, who was conceived by the Holy Spirit, born of the Virgin Mary, suffered under Pontius Pilate, was crucified, died and was buried; he descended into hell; on the third day he rose again from the dead; he ascended into heaven, and is seated at the right hand of God the Father almighty; from there he will come to judge the living and the dead.",
+        "I believe in the Holy Spirit, the holy catholic Church, the communion of saints, the forgiveness of sins, the resurrection of the body, and life everlasting. Amen."
+      ]
+    },
+    {
+      id: "our-father", group: "prayer", nav: "Our Father", tone: "",
+      eyebrow: "Prayed on each large bead", title: "The Our Father", meta: "",
+      lines: [
+        "Our Father, who art in heaven, hallowed be thy name; thy kingdom come; thy will be done on earth as it is in heaven.",
+        "Give us this day our daily bread; and forgive us our trespasses, as we forgive those who trespass against us; and lead us not into temptation, but deliver us from evil. Amen."
+      ]
+    },
+    {
+      id: "hail-mary", group: "prayer", nav: "Hail Mary", tone: "",
+      eyebrow: "Prayed on each small bead", title: "The Hail Mary", meta: "",
+      lines: [
+        "Hail Mary, full of grace, the Lord is with thee. Blessed art thou among women, and blessed is the fruit of thy womb, Jesus.",
+        "Holy Mary, Mother of God, pray for us sinners, now and at the hour of our death. Amen."
+      ]
+    },
+    {
+      id: "glory-be", group: "prayer", nav: "Glory Be", tone: "",
+      eyebrow: "Prayed after each decade", title: "The Glory Be", meta: "",
+      lines: ["Glory be to the Father, and to the Son, and to the Holy Spirit. As it was in the beginning, is now, and ever shall be, world without end. Amen."]
+    },
+    {
+      id: "fatima", group: "prayer", nav: "O My Jesus (Fatima Prayer)", tone: "",
+      eyebrow: "Prayed after the Glory Be", title: "The Fatima Prayer", meta: "",
+      lines: ["O my Jesus, forgive us our sins, save us from the fires of hell, lead all souls to Heaven, especially those most in need of thy mercy. Amen."]
+    },
+    {
+      id: "how-to", group: "start", nav: "How to Pray a Decade", tone: "",
+      eyebrow: "A quick guide", title: "Praying a Decade", meta: "",
+      render: function(){
+        return (
+          '<ol class="steps">' +
+          '<li>Announce the mystery, and pause for a moment to picture the scene.</li>' +
+          '<li>Pray one <strong>Our Father</strong> on the large bead.</li>' +
+          '<li>Pray ten <strong>Hail Marys</strong> on the ten small beads, keeping the mystery in mind.</li>' +
+          '<li>Pray one <strong>Glory Be</strong>.</li>' +
+          '<li>Pray the <strong>Fatima Prayer</strong>.</li>' +
+          '<li>Move to the next mystery and begin again.</li>' +
+          '</ol>'
+        );
+      }
+    },
+    {
+      id: "joyful", group: "mystery", nav: "Joyful Mysteries", tone: "tone-joyful",
+      eyebrow: "Monday &amp; Saturday", title: "The Joyful Mysteries", meta: "",
+      mysteries: [
+        mystery("The Annunciation", "Humility", "The angel Gabriel appears to Mary in Nazareth and announces that she will bear a son, Jesus. She answers with her fiat: let it be done to me according to your word."),
+        mystery("The Visitation", "Love of neighbor", "Mary hurries to the hill country to visit her cousin Elizabeth, who is carrying John the Baptist. Elizabeth greets her as the mother of her Lord, and Mary answers with the Magnificat."),
+        mystery("The Nativity", "Poverty of spirit", "In a stable at Bethlehem, Mary gives birth to Jesus and lays him in a manger, for there was no room for them at the inn."),
+        mystery("The Presentation", "Obedience", "Forty days after his birth, Mary and Joseph bring Jesus to the Temple. The aged Simeon and the prophetess Anna recognize him as the promised Messiah."),
+        mystery("The Finding in the Temple", "Joy in seeking Jesus", "After Passover, the boy Jesus stays behind in Jerusalem. After three anxious days, his parents find him in the Temple, sitting among the teachers, listening and asking questions.")
+      ]
+    },
+    {
+      id: "sorrowful", group: "mystery", nav: "Sorrowful Mysteries", tone: "tone-sorrowful",
+      eyebrow: "Tuesday &amp; Friday", title: "The Sorrowful Mysteries", meta: "",
+      mysteries: [
+        mystery("The Agony in the Garden", "Sorrow for sin", "In Gethsemane, Jesus prays in anguish as he takes on the weight of the world&rsquo;s sin, while his disciples sleep nearby, and accepts the Father&rsquo;s will."),
+        mystery("The Scourging at the Pillar", "Purity", "Jesus is bound to a pillar and brutally whipped by Roman soldiers before being handed over for crucifixion."),
+        mystery("The Crowning with Thorns", "Moral courage", "Soldiers mock Jesus as a king, dressing him in purple, pressing a crown of thorns into his head, and striking him."),
+        mystery("The Carrying of the Cross", "Patience", "Jesus carries his own cross through the streets of Jerusalem toward Calvary, falling beneath its weight, and is helped by Simon of Cyrene."),
+        mystery("The Crucifixion", "Self-denial", "Jesus is nailed to the cross on Calvary and dies for the salvation of the world, commending his spirit into the Father&rsquo;s hands.")
+      ]
+    },
+    {
+      id: "glorious", group: "mystery", nav: "Glorious Mysteries", tone: "tone-glorious",
+      eyebrow: "Wednesday &amp; Sunday", title: "The Glorious Mysteries", meta: "",
+      mysteries: [
+        mystery("The Resurrection", "Faith", "On the third day, Jesus rises from the dead, appearing to Mary Magdalene and the disciples, and conquering sin and death forever."),
+        mystery("The Ascension", "Hope", "Forty days after rising, Jesus leads his disciples to the Mount of Olives and ascends into heaven, promising to send the Holy Spirit."),
+        mystery("The Descent of the Holy Spirit", "Wisdom", "On Pentecost, the Holy Spirit descends upon Mary and the apostles gathered in the upper room, and the Church begins to preach the Gospel to every nation."),
+        mystery("The Assumption of Mary", "Grace of a happy death", "At the end of her earthly life, Mary is taken up body and soul into heavenly glory."),
+        mystery("The Coronation of Mary", "Trust in Mary&rsquo;s intercession", "Mary is crowned Queen of Heaven and earth by her Son, honored above all the angels and saints.")
+      ]
+    },
+    {
+      id: "luminous", group: "mystery", nav: "Luminous Mysteries", tone: "tone-luminous",
+      eyebrow: "Thursday", title: "The Luminous Mysteries", meta: "",
+      mysteries: [
+        mystery("The Baptism in the Jordan", "Openness to the Holy Spirit", "Jesus is baptized by John in the Jordan River. The heavens open, the Spirit descends like a dove, and the Father&rsquo;s voice declares him the beloved Son."),
+        mystery("The Wedding at Cana", "Trust in Jesus, through Mary", "At a wedding feast, Jesus turns water into wine at his mother&rsquo;s request, performing his first public miracle and revealing his glory."),
+        mystery("The Proclamation of the Kingdom", "Repentance", "Jesus preaches the Good News, calling all people to conversion and announcing the Kingdom of God, with mercy for sinners."),
+        mystery("The Transfiguration", "Desire for holiness", "On Mount Tabor, Jesus is transfigured before Peter, James, and John, his face shining like the sun, as Moses and Elijah appear beside him."),
+        mystery("The Institution of the Eucharist", "Love of the Eucharist", "At the Last Supper, Jesus takes bread and wine and gives his Body and Blood to the apostles, instituting the Eucharist as a memorial of his sacrifice.")
+      ]
+    },
+    {
+      id: "hail-holy-queen", group: "prayer", nav: "Hail Holy Queen", tone: "",
+      eyebrow: "Prayed at the end", title: "Hail, Holy Queen", meta: "Salve Regina",
+      lines: [
+        "Hail, holy Queen, Mother of mercy, our life, our sweetness, and our hope. To thee do we cry, poor banished children of Eve. To thee do we send up our sighs, mourning and weeping in this valley of tears.",
+        "Turn then, most gracious advocate, thine eyes of mercy toward us, and after this our exile show unto us the blessed fruit of thy womb, Jesus. O clement, O loving, O sweet Virgin Mary.",
+        "Pray for us, O holy Mother of God, that we may be made worthy of the promises of Christ."
+      ]
+    },
+    {
+      id: "memorare", group: "prayer", nav: "The Memorare", tone: "",
+      eyebrow: "An added devotion", title: "The Memorare", meta: "",
+      lines: [
+        "Remember, O most gracious Virgin Mary, that never was it known that anyone who fled to thy protection, implored thy help, or sought thy intercession, was left unaided.",
+        "Inspired by this confidence, I fly unto thee, O Virgin of virgins, my Mother; to thee do I come, before thee I stand, sinful and sorrowful. O Mother of the Word Incarnate, despise not my petitions, but in thy mercy hear and answer me. Amen."
+      ]
+    },
+    {
+      id: "closing", group: "prayer", nav: "Closing Prayer", tone: "",
+      eyebrow: "To conclude", title: "Closing Prayer", meta: "",
+      lines: [
+        "Let us pray. O God, whose only-begotten Son, by his life, death, and resurrection, has purchased for us the rewards of eternal life; grant, we beseech thee, that meditating upon these mysteries of the most holy Rosary of the Blessed Virgin Mary, we may imitate what they contain and obtain what they promise, through the same Christ our Lord. Amen.",
+        "In the Name of the Father, and of the Son, and of the Holy Spirit. Amen."
+      ]
+    }
+  ];
+
+  var idx = 0;
+  var sheet = document.getElementById("sheet");
+  var inner = document.getElementById("sheetInner");
+  var pageLabel = document.getElementById("pageLabel");
+  var pageCount = document.getElementById("pageCount");
+
+  function renderPage(p){
+    var html = '<p class="eyebrow">' + p.eyebrow + '</p>';
+    html += '<h1 class="page-title">' + p.title + '</h1>';
+    if (p.meta) html += '<p class="meta">' + p.meta + '</p>';
+    html += '<hr class="rule">';
+    if (p.render) {
+      html += p.render();
+    } else if (p.mysteries) {
+      html += '<ul class="mysteries ' + p.tone + '">';
+      p.mysteries.forEach(function(m, i){
+        html += '<li><button class="m-row" aria-expanded="false">' +
+          '<span class="m-num">' + (i+1) + '</span>' +
+          '<div class="m-body"><h3>' + m.name + '</h3><p>Fruit: ' + m.fruit + '</p></div>' +
+          '<svg class="m-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 9l6 6 6-6"/></svg>' +
+          '</button><div class="m-desc"><p>' + m.desc + '</p></div></li>';
+      });
+      html += '</ul>';
+    } else if (p.lines) {
+      html += '<div class="body-text">';
+      p.lines.forEach(function(line){ html += '<p>' + line + '</p>'; });
+      html += '</div>';
+    }
+    return html;
+  }
+
+  function show(newIdx, direction){
+    idx = ((newIdx % pages.length) + pages.length) % pages.length;
+    var p = pages[idx];
+    inner.innerHTML = renderPage(p);
+    sheet.className = "sheet" + (p.tone ? (" " + p.tone) : "");
+    inner.scrollTop = 0;
+    Array.prototype.forEach.call(inner.querySelectorAll(".m-row"), function(btn){
+      btn.addEventListener("click", function(){
+        var li = btn.parentElement;
+        var open = li.classList.toggle("open");
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+    });
+    Array.prototype.forEach.call(inner.querySelectorAll("[data-goto]"), function(btn){
+      btn.addEventListener("click", function(){
+        var target = pages.findIndex(function(pg){ return pg.id === btn.getAttribute("data-goto"); });
+        if (target !== -1) show(target, target > idx ? "next" : "prev");
+      });
+    });
+    pageLabel.textContent = p.nav.replace(/&rsquo;/g,"\u2019").replace(/&amp;/g,"&");
+    pageCount.textContent = (idx+1) + " / " + pages.length;
+    if (direction) {
+      void sheet.offsetWidth;
+      sheet.classList.add(direction === "next" ? "anim-next" : "anim-prev");
+      sheet.addEventListener("animationend", function handler(){
+        sheet.classList.remove("anim-next","anim-prev");
+        sheet.removeEventListener("animationend", handler);
+      });
+    }
+    buildMenu();
+  }
+
+  document.getElementById("btnNext").addEventListener("click", function(){ show(idx+1, "next"); });
+  document.getElementById("btnPrev").addEventListener("click", function(){ show(idx-1, "prev"); });
+
+  // swipe support
+  var touchX = null;
+  document.addEventListener("touchstart", function(e){
+    if (e.touches.length === 1) touchX = e.touches[0].clientX;
+  }, {passive:true});
+  document.addEventListener("touchend", function(e){
+    if (touchX === null) return;
+    var dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 48) {
+      if (dx < 0) show(idx+1, "next"); else show(idx-1, "prev");
+    }
+    touchX = null;
+  }, {passive:true});
+
+  // keyboard
+  document.addEventListener("keydown", function(e){
+    if (e.key === "ArrowRight") show(idx+1, "next");
+    if (e.key === "ArrowLeft") show(idx-1, "prev");
+    if (e.key === "Escape") closeMenu();
+  });
+
+  // menu
+  var overlay = document.getElementById("overlay");
+  var menuList = document.getElementById("menuList");
+  var groupLabels = { start: "Begin", prayer: "Prayers", mystery: "Mysteries of the Rosary" };
+
+  function buildMenu(){
+    var order = ["start","prayer","mystery"];
+    var html = "";
+    order.forEach(function(g){
+      var items = pages.filter(function(p){ return p.group === g; });
+      if (!items.length) return;
+      html += '<div class="menu-group-label">' + groupLabels[g] + '</div>';
+      items.forEach(function(p){
+        var realIdx = pages.indexOf(p);
+        html += '<button class="menu-item' + (realIdx === idx ? ' active' : '') + '" data-idx="' + realIdx + '">' +
+          '<span class="dot"' + (p.tone ? ' style="background:var(--' + p.tone.replace('tone-','') + ')"' : '') + '></span>' +
+          '<span class="menu-item-label">' + p.nav + '</span></button>';
+      });
+    });
+    menuList.innerHTML = html;
+    Array.prototype.forEach.call(menuList.querySelectorAll(".menu-item"), function(btn){
+      btn.addEventListener("click", function(){
+        var target = parseInt(btn.getAttribute("data-idx"), 10);
+        var dir = target > idx ? "next" : (target < idx ? "prev" : null);
+        closeMenu();
+        show(target, dir);
+      });
+    });
+  }
+
+  function openMenu(){ overlay.classList.add("open"); }
+  function closeMenu(){ overlay.classList.remove("open"); }
+
+  document.getElementById("fabMenu").addEventListener("click", openMenu);
+  document.getElementById("menuClose").addEventListener("click", closeMenu);
+  overlay.addEventListener("click", function(e){ if (e.target === overlay) closeMenu(); });
+
+  // theme toggle
+  var sunPath = '<circle cx="12" cy="12" r="4.2"/><path d="M12 3v2.2M12 18.8V21M4.4 4.4l1.55 1.55M18.05 18.05l1.55 1.55M3 12h2.2M18.8 12H21M4.4 19.6l1.55-1.55M18.05 5.95l1.55-1.55"/>';
+  var moonPath = '<path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.7 6.7 0 0 0 10.5 10.5z"/>';
+  var root = document.documentElement;
+  var themeBtn = document.getElementById("themeToggle");
+  var themeIcon = document.getElementById("themeIcon");
+
+  function paintThemeIcon(theme){
+    themeIcon.innerHTML = theme === "dark" ? sunPath : moonPath;
+    themeBtn.setAttribute("aria-label", theme === "dark" ? "Switch to light theme" : "Switch to dark theme");
+  }
+  paintThemeIcon(root.getAttribute("data-theme") || "light");
+
+  themeBtn.addEventListener("click", function(){
+    var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    root.setAttribute("data-theme", next);
+    paintThemeIcon(next);
+    try { localStorage.setItem("rosary-theme", next); } catch(e) {}
+  });
+
+  show(0, null);
+})();
+</script>
+</body>
+</html>
