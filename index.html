@@ -290,8 +290,26 @@
     color: var(--ink);
     max-width: 56ch;
   }
+  .m-desc .pray-for {
+    margin: 0 0 14px;
+    padding-top: 12px;
+    border-top: 1px dotted var(--rule);
+  }
+  .m-desc .pray-for .label {
+    display: block;
+    font-variant: small-caps;
+    letter-spacing: .04em;
+    font-size: 13px;
+    font-style: normal;
+    color: var(--tone, var(--gold));
+    margin-bottom: 4px;
+  }
+  .tone-joyful .pray-for .label { color: var(--joyful); }
+  .tone-sorrowful .pray-for .label { color: var(--sorrowful); }
+  .tone-glorious .pray-for .label { color: var(--glorious); }
+  .tone-luminous .pray-for .label { color: var(--luminous); }
   .mysteries li.open .m-desc {
-    max-height: 220px;
+    max-height: 340px;
     opacity: 1;
   }
   @media (prefers-reduced-motion: reduce) {
@@ -512,7 +530,7 @@
 (function(){
   "use strict";
 
-  function mystery(name, fruit, desc){ return {name:name, fruit:fruit, desc:desc}; }
+  function mystery(name, fruit, desc, prayFor){ return {name:name, fruit:fruit, desc:desc, prayFor:prayFor}; }
 
   var pages = [
     {
@@ -594,44 +612,44 @@
       id: "joyful", group: "mystery", nav: "Joyful Mysteries", tone: "tone-joyful",
       eyebrow: "Monday &amp; Saturday", title: "The Joyful Mysteries", meta: "",
       mysteries: [
-        mystery("The Annunciation", "Humility", "The angel Gabriel appears to Mary in Nazareth and announces that she will bear a son, Jesus. She answers with her fiat: let it be done to me according to your word."),
-        mystery("The Visitation", "Love of neighbor", "Mary hurries to the hill country to visit her cousin Elizabeth, who is carrying John the Baptist. Elizabeth greets her as the mother of her Lord, and Mary answers with the Magnificat."),
-        mystery("The Nativity", "Poverty of spirit", "In a stable at Bethlehem, Mary gives birth to Jesus and lays him in a manger, for there was no room for them at the inn."),
-        mystery("The Presentation", "Obedience", "Forty days after his birth, Mary and Joseph bring Jesus to the Temple. The aged Simeon and the prophetess Anna recognize him as the promised Messiah."),
-        mystery("The Finding in the Temple", "Joy in seeking Jesus", "After Passover, the boy Jesus stays behind in Jerusalem. After three anxious days, his parents find him in the Temple, sitting among the teachers, listening and asking questions.")
+        mystery("The Annunciation", "Humility", "The angel Gabriel appears to Mary in Nazareth and announces that she will bear a son, Jesus. She answers with her fiat: let it be done to me according to your word.", "The grace to receive God&rsquo;s call without pride or false modesty, and to answer it with a wholehearted yes."),
+        mystery("The Visitation", "Love of neighbor", "Mary hurries to the hill country to visit her cousin Elizabeth, who is carrying John the Baptist. Elizabeth greets her as the mother of her Lord, and Mary answers with the Magnificat.", "Eyes that notice other people&rsquo;s needs, and a readiness to move toward them without waiting to be asked."),
+        mystery("The Nativity", "Poverty of spirit", "In a stable at Bethlehem, Mary gives birth to Jesus and lays him in a manger, for there was no room for them at the inn.", "Detachment &mdash; to hold what you have loosely, and to make room in your life for Christ."),
+        mystery("The Presentation", "Obedience", "Forty days after his birth, Mary and Joseph bring Jesus to the Temple. The aged Simeon and the prophetess Anna recognize him as the promised Messiah.", "A willing, trusting obedience to God, to the Church, and to the ordinary duties of your state in life."),
+        mystery("The Finding in the Temple", "Joy in seeking Jesus", "After Passover, the boy Jesus stays behind in Jerusalem. After three anxious days, his parents find him in the Temple, sitting among the teachers, listening and asking questions.", "Perseverance in seeking Christ when he seems far away, and joy in his presence when you find him.")
       ]
     },
     {
       id: "sorrowful", group: "mystery", nav: "Sorrowful Mysteries", tone: "tone-sorrowful",
       eyebrow: "Tuesday &amp; Friday", title: "The Sorrowful Mysteries", meta: "",
       mysteries: [
-        mystery("The Agony in the Garden", "Sorrow for sin", "In Gethsemane, Jesus prays in anguish as he takes on the weight of the world&rsquo;s sin, while his disciples sleep nearby, and accepts the Father&rsquo;s will."),
-        mystery("The Scourging at the Pillar", "Purity", "Jesus is bound to a pillar and brutally whipped by Roman soldiers before being handed over for crucifixion."),
-        mystery("The Crowning with Thorns", "Moral courage", "Soldiers mock Jesus as a king, dressing him in purple, pressing a crown of thorns into his head, and striking him."),
-        mystery("The Carrying of the Cross", "Patience", "Jesus carries his own cross through the streets of Jerusalem toward Calvary, falling beneath its weight, and is helped by Simon of Cyrene."),
-        mystery("The Crucifixion", "Self-denial", "Jesus is nailed to the cross on Calvary and dies for the salvation of the world, commending his spirit into the Father&rsquo;s hands.")
+        mystery("The Agony in the Garden", "Sorrow for sin", "In Gethsemane, Jesus prays in anguish as he takes on the weight of the world&rsquo;s sin, while his disciples sleep nearby, and accepts the Father&rsquo;s will.", "True contrition, and a will that chooses God&rsquo;s even when it struggles."),
+        mystery("The Scourging at the Pillar", "Purity", "Jesus is bound to a pillar and brutally whipped by Roman soldiers before being handed over for crucifixion.", "Self-discipline, and a pure and undivided heart."),
+        mystery("The Crowning with Thorns", "Moral courage", "Soldiers mock Jesus as a king, dressing him in purple, pressing a crown of thorns into his head, and striking him.", "Courage in living the faith, and freedom from needing human approval."),
+        mystery("The Carrying of the Cross", "Patience", "Jesus carries his own cross through the streets of Jerusalem toward Calvary, falling beneath its weight, and is helped by Simon of Cyrene.", "Patience in your particular burdens, and the humility to accept help."),
+        mystery("The Crucifixion", "Self-denial", "Jesus is nailed to the cross on Calvary and dies for the salvation of the world, commending his spirit into the Father&rsquo;s hands.", "Faithfulness to the end, and a love that gives itself completely.")
       ]
     },
     {
       id: "glorious", group: "mystery", nav: "Glorious Mysteries", tone: "tone-glorious",
       eyebrow: "Wednesday &amp; Sunday", title: "The Glorious Mysteries", meta: "",
       mysteries: [
-        mystery("The Resurrection", "Faith", "On the third day, Jesus rises from the dead, appearing to Mary Magdalene and the disciples, and conquering sin and death forever."),
-        mystery("The Ascension", "Hope", "Forty days after rising, Jesus leads his disciples to the Mount of Olives and ascends into heaven, promising to send the Holy Spirit."),
-        mystery("The Descent of the Holy Spirit", "Wisdom", "On Pentecost, the Holy Spirit descends upon Mary and the apostles gathered in the upper room, and the Church begins to preach the Gospel to every nation."),
-        mystery("The Assumption of Mary", "Grace of a happy death", "At the end of her earthly life, Mary is taken up body and soul into heavenly glory."),
-        mystery("The Coronation of Mary", "Trust in Mary&rsquo;s intercession", "Mary is crowned Queen of Heaven and earth by her Son, honored above all the angels and saints.")
+        mystery("The Resurrection", "Faith", "On the third day, Jesus rises from the dead, appearing to Mary Magdalene and the disciples, and conquering sin and death forever.", "A living faith that sees every Good Friday of your life in the light of Easter."),
+        mystery("The Ascension", "Hope", "Forty days after rising, Jesus leads his disciples to the Mount of Olives and ascends into heaven, promising to send the Holy Spirit.", "A hope that steadies you in difficulty, a real desire for heaven, and courage to witness while you wait."),
+        mystery("The Descent of the Holy Spirit", "Wisdom", "On Pentecost, the Holy Spirit descends upon Mary and the apostles gathered in the upper room, and the Church begins to preach the Gospel to every nation.", "A fresh outpouring of the Holy Spirit, and zeal to share the faith."),
+        mystery("The Assumption of Mary", "Grace of a happy death", "At the end of her earthly life, Mary is taken up body and soul into heavenly glory.", "The grace to live and die well, and Mary&rsquo;s help at that hour."),
+        mystery("The Coronation of Mary", "Trust in Mary&rsquo;s intercession", "Mary is crowned Queen of Heaven and earth by her Son, honored above all the angels and saints.", "Trust in Mary&rsquo;s intercession, and perseverance to the crown of life.")
       ]
     },
     {
       id: "luminous", group: "mystery", nav: "Luminous Mysteries", tone: "tone-luminous",
       eyebrow: "Thursday", title: "The Luminous Mysteries", meta: "",
       mysteries: [
-        mystery("The Baptism in the Jordan", "Openness to the Holy Spirit", "Jesus is baptized by John in the Jordan River. The heavens open, the Spirit descends like a dove, and the Father&rsquo;s voice declares him the beloved Son."),
-        mystery("The Wedding at Cana", "Trust in Jesus, through Mary", "At a wedding feast, Jesus turns water into wine at his mother&rsquo;s request, performing his first public miracle and revealing his glory."),
-        mystery("The Proclamation of the Kingdom", "Repentance", "Jesus preaches the Good News, calling all people to conversion and announcing the Kingdom of God, with mercy for sinners."),
-        mystery("The Transfiguration", "Desire for holiness", "On Mount Tabor, Jesus is transfigured before Peter, James, and John, his face shining like the sun, as Moses and Elijah appear beside him."),
-        mystery("The Institution of the Eucharist", "Love of the Eucharist", "At the Last Supper, Jesus takes bread and wine and gives his Body and Blood to the apostles, instituting the Eucharist as a memorial of his sacrifice.")
+        mystery("The Baptism in the Jordan", "Openness to the Holy Spirit", "Jesus is baptized by John in the Jordan River. The heavens open, the Spirit descends like a dove, and the Father&rsquo;s voice declares him the beloved Son.", "Docility to the Holy Spirit, and the grace to live from your identity as a beloved child of God."),
+        mystery("The Wedding at Cana", "Trust in Jesus, through Mary", "At a wedding feast, Jesus turns water into wine at his mother&rsquo;s request, performing his first public miracle and revealing his glory.", "Confidence in bringing ordinary needs to God, and the obedience Mary recommends."),
+        mystery("The Proclamation of the Kingdom", "Repentance", "Jesus preaches the Good News, calling all people to conversion and announcing the Kingdom of God, with mercy for sinners.", "An honest heart that keeps turning back to God, and trust in his mercy."),
+        mystery("The Transfiguration", "Desire for holiness", "On Mount Tabor, Jesus is transfigured before Peter, James, and John, his face shining like the sun, as Moses and Elijah appear beside him.", "A longing to become holy, and the resolve to listen to Christ, especially in hard seasons."),
+        mystery("The Institution of the Eucharist", "Love of the Eucharist", "At the Last Supper, Jesus takes bread and wine and gives his Body and Blood to the apostles, instituting the Eucharist as a memorial of his sacrifice.", "Deeper faith in Christ&rsquo;s real presence, and a growing love for the Eucharist.")
       ]
     },
     {
@@ -681,7 +699,7 @@
           '<span class="m-num">' + (i+1) + '</span>' +
           '<div class="m-body"><h3>' + m.name + '</h3><p>Fruit: ' + m.fruit + '</p></div>' +
           '<svg class="m-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 9l6 6 6-6"/></svg>' +
-          '</button><div class="m-desc"><p>' + m.desc + '</p></div></li>';
+          '</button><div class="m-desc"><p>' + m.desc + '</p><p class="pray-for"><span class="label">Pray for</span>' + m.prayFor + '</p></div></li>';
       });
       html += '</ul>';
     } else if (p.lines) {
