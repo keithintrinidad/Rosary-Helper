@@ -36,6 +36,7 @@
     --sorrowful: #6E1F2E;
     --glorious: #A9863F;
     --luminous: #384F72;
+    --servite: #5C3566;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
@@ -53,6 +54,7 @@
       --sorrowful: #C6647A;
       --glorious: #E0C689;
       --luminous: #7C97C4;
+      --servite: #B58FC2;
     }
   }
   :root[data-theme="dark"] {
@@ -70,6 +72,7 @@
     --sorrowful: #C6647A;
     --glorious: #E0C689;
     --luminous: #7C97C4;
+    --servite: #B58FC2;
   }
 
   * { box-sizing: border-box; }
@@ -120,7 +123,8 @@
   .sheet.tone-joyful::after,
   .sheet.tone-sorrowful::after,
   .sheet.tone-glorious::after,
-  .sheet.tone-luminous::after {
+  .sheet.tone-luminous::after,
+  .sheet.tone-servite::after {
     content: "";
     position: absolute;
     top: 0; left: 22px; right: 22px;
@@ -130,6 +134,7 @@
   .sheet.tone-sorrowful::after { background: var(--sorrowful); }
   .sheet.tone-glorious::after { background: var(--glorious); }
   .sheet.tone-luminous::after { background: var(--luminous); }
+  .sheet.tone-servite::after { background: var(--servite); }
 
   @keyframes flipNext {
     from { transform: rotateY(-10deg) scale(.97); opacity: 0; }
@@ -200,6 +205,7 @@
   .cover-quick .row.tone-sorrowful span:last-child { color: var(--sorrowful); }
   .cover-quick .row.tone-glorious span:last-child { color: var(--glorious); }
   .cover-quick .row.tone-luminous span:last-child { color: var(--luminous); }
+  .cover-quick .row.tone-servite span:last-child { color: var(--servite); }
   .cover-quick .row {
     width: 100%;
     background: none;
@@ -224,6 +230,33 @@
     line-height: 1.55;
     margin-bottom: 12px;
     padding-left: 4px;
+  }
+
+  .versicle {
+    margin: 4px 0 22px;
+    padding: 14px 16px;
+    background: var(--paper-2);
+    border-radius: 4px;
+    border: 1px solid var(--rule);
+  }
+  .versicle .versicle-label {
+    font-variant: small-caps;
+    letter-spacing: .04em;
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin: 0 0 8px;
+  }
+  .versicle p {
+    margin: 0 0 8px;
+    font-size: 15.5px;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+  .versicle p:last-child { margin-bottom: 0; }
+  .versicle .vr {
+    font-weight: 600;
+    color: var(--servite);
+    margin-right: 2px;
   }
 
   .mysteries {
@@ -308,6 +341,7 @@
   .tone-sorrowful .pray-for .label { color: var(--sorrowful); }
   .tone-glorious .pray-for .label { color: var(--glorious); }
   .tone-luminous .pray-for .label { color: var(--luminous); }
+  .tone-servite .pray-for .label { color: var(--servite); }
   .mysteries li.open .m-desc {
     max-height: 340px;
     opacity: 1;
@@ -320,6 +354,7 @@
   .tone-sorrowful .m-num { color: var(--sorrowful); }
   .tone-glorious .m-num { color: var(--glorious); }
   .tone-luminous .m-num { color: var(--luminous); }
+  .tone-servite .m-num { color: var(--servite); }
 
   /* footer / wayfinding */
   .footer-bar {
@@ -549,6 +584,10 @@
           '<button class="row tone-sorrowful" data-goto="sorrowful"><span>Tuesday &amp; Friday</span><span>Sorrowful Mysteries</span></button>' +
           '<button class="row tone-glorious" data-goto="glorious"><span>Wednesday &amp; Sunday</span><span>Glorious Mysteries</span></button>' +
           '<button class="row tone-luminous" data-goto="luminous"><span>Thursday</span><span>Luminous Mysteries</span></button>' +
+          '</div>' +
+          '<div class="cover-quick">' +
+          '<button class="row" data-goto="peace-rosary"><span>A short devotion</span><span>The Peace Rosary</span></button>' +
+          '<button class="row tone-servite" data-goto="seven-sorrows"><span>The Servite Rosary</span><span>The Seven Sorrows</span></button>' +
           '</div>'
         );
       }
@@ -676,6 +715,47 @@
         "Let us pray. O God, whose only-begotten Son, by his life, death, and resurrection, has purchased for us the rewards of eternal life; grant, we beseech thee, that meditating upon these mysteries of the most holy Rosary of the Blessed Virgin Mary, we may imitate what they contain and obtain what they promise, through the same Christ our Lord. Amen.",
         "In the Name of the Father, and of the Son, and of the Holy Spirit. Amen."
       ]
+    },
+    {
+      id: "peace-rosary", group: "devotion", nav: "The Peace Rosary", tone: "",
+      eyebrow: "A short devotion", title: "The Peace Rosary", meta: "A tradition from Croatia and Medjugorje",
+      render: function(){
+        return (
+          '<div class="body-text">' +
+          '<p>A short rosary for moments when a full one isn&rsquo;t possible &mdash; carried by families in Croatia for generations, and prayed today at the shrine of Medjugorje. It is prayed on a small chaplet of seven groups of three beads.</p>' +
+          '</div>' +
+          '<ol class="steps">' +
+          '<li>Make the <strong>Sign of the Cross</strong>.</li>' +
+          '<li>Pray the <strong>Apostles&rsquo; Creed</strong>.</li>' +
+          '<li>On the first group of three beads, pray one <strong>Our Father</strong>, one <strong>Hail Mary</strong>, and one <strong>Glory Be</strong>.</li>' +
+          '<li>Repeat that pattern six more times, once for each remaining group of three beads &mdash; seven times in all.</li>' +
+          '<li>Close with the <strong>Sign of the Cross</strong>.</li>' +
+          '</ol>'
+        );
+      }
+    },
+    {
+      id: "seven-sorrows", group: "devotion", nav: "The Seven Sorrows of Mary", tone: "tone-servite",
+      eyebrow: "The Servite Rosary", title: "The Seven Sorrows of Mary", meta: "One Our Father and seven Hail Marys for each sorrow",
+      intro: '<div class="versicle"><p class="versicle-label">Opening</p>' +
+        '<p><em>Sign of the Cross:</em> In the Name of the Father, and of the Son, and of the Holy Spirit. Amen.</p>' +
+        '<p><span class="vr">V.</span>O God, come to my assistance.<br><span class="vr">R.</span>O Lord, make haste to help me.</p>' +
+        '<p><span class="vr">V.</span>Glory be to the Father, and to the Son, and to the Holy Spirit.<br><span class="vr">R.</span>As it was in the beginning, is now, and ever shall be, world without end. Amen.</p></div>' +
+        '<div class="versicle"><p class="versicle-label">Act of Contrition</p>' +
+        '<p>O my God, I am heartily sorry for having offended Thee, and I detest all my sins, because I dread the loss of heaven and the pains of hell, but most of all because they offend Thee, my God, who art all good and deserving of all my love. I firmly resolve, with the help of Thy grace, to sin no more and to avoid the near occasions of sin. Amen.</p></div>',
+      outro: '<div class="versicle"><p class="versicle-label">Closing</p>' +
+        '<p>Three Hail Marys, in honor of Our Lady&rsquo;s tears, followed by a Glory Be.</p>' +
+        '<p><span class="vr">V.</span>Pray for us, O Virgin most sorrowful.<br><span class="vr">R.</span>That we may be made worthy of the promises of Christ.</p>' +
+        '<p><em>Sign of the Cross:</em> In the Name of the Father, and of the Son, and of the Holy Spirit. Amen.</p></div>',
+      mysteries: [
+        mystery("The Prophecy of Simeon", "Acceptance of God&rsquo;s will", "In the Temple, the aged Simeon tells Mary that a sword shall pierce her own soul, foretelling the suffering her Son will bear.", "The grace to accept, in trust, whatever sorrow God permits in your own life."),
+        mystery("The Flight into Egypt", "Trust in God&rsquo;s providence", "Warned in a dream, Joseph takes Mary and the child Jesus and flees by night into Egypt, escaping Herod&rsquo;s murderous search for the child.", "Steadiness and trust in God&rsquo;s care during sudden upheaval or exile."),
+        mystery("The Loss of the Child Jesus in the Temple", "Perseverance in seeking Jesus", "Mary and Joseph discover that the boy Jesus is missing from their company returning from Jerusalem, and search for him in anguish for three days.", "Perseverance in seeking Christ during seasons when he seems lost to us."),
+        mystery("Mary Meets Jesus on the Way to Calvary", "Compassion", "Along the road to Calvary, Mary meets her Son carrying his cross, beaten and bloodied, and their eyes meet in silent, shared suffering.", "A compassionate heart, willing to accompany others in their suffering."),
+        mystery("The Crucifixion", "Fortitude", "Mary stands near the cross as her Son dies, neither fleeing nor collapsing, present to him in his agony to the very end.", "Fortitude to remain present in love, even when nothing can be done but stay."),
+        mystery("Jesus Is Taken Down from the Cross", "Hope amid grief", "Jesus&rsquo;s body is taken down from the cross and laid in his mother&rsquo;s arms, the Pietà: sorrow held with reverence and love.", "Hope that carries grief without being consumed by it."),
+        mystery("The Burial of Jesus", "Quiet faith", "Jesus is laid in the tomb, and Mary waits in darkness and silence, not yet seeing the resurrection to come.", "A quiet faith that waits on God even before his answer is seen.")
+      ]
     }
   ];
 
@@ -690,6 +770,7 @@
     html += '<h1 class="page-title">' + p.title + '</h1>';
     if (p.meta) html += '<p class="meta">' + p.meta + '</p>';
     html += '<hr class="rule">';
+    if (p.intro) html += p.intro;
     if (p.render) {
       html += p.render();
     } else if (p.mysteries) {
@@ -707,6 +788,7 @@
       p.lines.forEach(function(line){ html += '<p>' + line + '</p>'; });
       html += '</div>';
     }
+    if (p.outro) html += p.outro;
     return html;
   }
 
@@ -769,10 +851,10 @@
   // menu
   var overlay = document.getElementById("overlay");
   var menuList = document.getElementById("menuList");
-  var groupLabels = { start: "Begin", prayer: "Prayers", mystery: "Mysteries of the Rosary" };
+  var groupLabels = { start: "Begin", prayer: "Prayers", mystery: "Mysteries of the Rosary", devotion: "Other Devotions" };
 
   function buildMenu(){
-    var order = ["start","prayer","mystery"];
+    var order = ["start","prayer","mystery","devotion"];
     var html = "";
     order.forEach(function(g){
       var items = pages.filter(function(p){ return p.group === g; });
