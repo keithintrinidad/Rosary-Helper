@@ -411,25 +411,29 @@
   /* edge nav */
   .edge-btn {
     position: absolute;
-    top: 0; bottom: 0;
-    width: 56px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
-    background: transparent;
-    border: none;
-    color: var(--ink-soft);
+    justify-content: center;
+    background: var(--burgundy);
+    border: 1px solid var(--burgundy-deep);
+    box-shadow: 0 6px 16px -6px var(--shadow);
     cursor: pointer;
-    opacity: .55;
+    opacity: .92;
     transition: opacity .15s ease;
     z-index: 3;
   }
   .edge-btn:hover, .edge-btn:focus-visible { opacity: 1; }
-  .edge-btn.prev { left: max(2px, calc(50% - 260px)); justify-content: flex-start; padding-left: 6px; }
-  .edge-btn.next { right: max(2px, calc(50% - 260px)); justify-content: flex-end; padding-right: 6px; }
-  .edge-btn svg { width: 20px; height: 20px; }
+  .edge-btn.prev { left: max(6px, calc(50% - 268px)); }
+  .edge-btn.next { right: max(6px, calc(50% - 268px)); }
+  .edge-btn svg { width: 17px; height: 17px; stroke: var(--paper); }
   @media (max-width: 560px) {
-    .edge-btn.prev { left: 0; }
-    .edge-btn.next { right: 0; }
+    .edge-btn.prev { left: 8px; }
+    .edge-btn.next { right: 8px; }
   }
 
   /* FAB */
