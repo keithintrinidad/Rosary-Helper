@@ -45,7 +45,7 @@ cached copy for a while instead of fetching the update.
 
 This app is free to share and adapt — but never to sell, and any
 version made from it must stay free too. It was built by Claude
-(Anthropic), prompted and directed by **[Your Name]**. Full terms are
+(Anthropic), prompted and directed by **Keith Francis**. Full terms are
 in `LICENSE.md`.
 
 ## Turning this into an Android APK
