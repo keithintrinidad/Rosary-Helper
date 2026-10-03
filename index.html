@@ -1116,5 +1116,18 @@
   show(0, null);
 })();
 </script>
+<script>
+// Registers the service worker when one is reachable at this location
+// (a real web host). Safe no-op anywhere else — opening the file
+// locally, or previewing it here, simply skips this and the app
+// still works exactly the same.
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("sw.js").catch(function () {
+      /* no service worker available in this context */
+    });
+  });
+}
+</script>
 </body>
 </html>
