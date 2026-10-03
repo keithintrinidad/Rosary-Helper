@@ -28,8 +28,7 @@ https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode
 ## Authorship & Attribution
 
 This application was built by **Claude**, an AI model created by
-**Anthropic**, from prompts and direction given by **[Your Name /
-GitHub handle]**. [Your Name] directed the app's design, content, and
+**Anthropic**, from prompts and direction given by **Keith Francis, Github username keithintrinidad**. Keith Francis directed the app's design, content, and
 features through conversation with Claude, but did not write the code
 or prayer-page text directly.
 
