@@ -19,11 +19,12 @@ as an Android app with PWABuilder.
   time (online), it caches the app shell, so it keeps working with
   no connection on later visits — same as the single-file download,
   but automatic, and it updates itself when you push changes.
+- `LICENSE.md` — the terms this project is shared under (see below).
 
 ## Uploading to GitHub
 
 1. Create (or reuse) a repo named exactly `yourusername.github.io`.
-2. Upload these five files to its root — not nested in a subfolder.
+2. Upload these six files to its root — not nested in a subfolder.
 3. In the repo's **Settings → Pages**, set the source to the `main`
    branch, root folder, and save.
 4. Visit `https://yourusername.github.io` to confirm it loads.
@@ -39,6 +40,13 @@ etc.), bump the version number in `sw.js`'s `CACHE_NAME` line (e.g.
 `rosary-companion-v1` → `rosary-companion-v2`) before you upload —
 otherwise returning visitors' browsers may keep serving the old
 cached copy for a while instead of fetching the update.
+
+## License & authorship
+
+This app is free to share and adapt — but never to sell, and any
+version made from it must stay free too. It was built by Claude
+(Anthropic), prompted and directed by **[Your Name]**. Full terms are
+in `LICENSE.md`.
 
 ## Turning this into an Android APK
 
