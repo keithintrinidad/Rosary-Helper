@@ -37,6 +37,7 @@
     --glorious: #A9863F;
     --luminous: #384F72;
     --servite: #5C3566;
+    --michael: #4A5A66;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
@@ -55,6 +56,7 @@
       --glorious: #E0C689;
       --luminous: #7C97C4;
       --servite: #B58FC2;
+      --michael: #9FB3C0;
     }
   }
   :root[data-theme="dark"] {
@@ -73,6 +75,7 @@
     --glorious: #E0C689;
     --luminous: #7C97C4;
     --servite: #B58FC2;
+    --michael: #9FB3C0;
   }
 
   * { box-sizing: border-box; }
@@ -124,7 +127,8 @@
   .sheet.tone-sorrowful::after,
   .sheet.tone-glorious::after,
   .sheet.tone-luminous::after,
-  .sheet.tone-servite::after {
+  .sheet.tone-servite::after,
+  .sheet.tone-michael::after {
     content: "";
     position: absolute;
     top: 0; left: 22px; right: 22px;
@@ -135,6 +139,7 @@
   .sheet.tone-glorious::after { background: var(--glorious); }
   .sheet.tone-luminous::after { background: var(--luminous); }
   .sheet.tone-servite::after { background: var(--servite); }
+  .sheet.tone-michael::after { background: var(--michael); }
 
   @keyframes flipNext {
     from { transform: rotateY(-10deg) scale(.97); opacity: 0; }
@@ -206,6 +211,7 @@
   .cover-quick .row.tone-glorious span:last-child { color: var(--glorious); }
   .cover-quick .row.tone-luminous span:last-child { color: var(--luminous); }
   .cover-quick .row.tone-servite span:last-child { color: var(--servite); }
+  .cover-quick .row.tone-michael span:last-child { color: var(--michael); }
   .cover-quick .row {
     width: 100%;
     background: none;
@@ -382,6 +388,7 @@
   .tone-glorious .pray-for .label { color: var(--glorious); }
   .tone-luminous .pray-for .label { color: var(--luminous); }
   .tone-servite .pray-for .label { color: var(--servite); }
+  .tone-michael .pray-for .label { color: var(--michael); }
   .mysteries li.open .m-desc {
     max-height: 340px;
     opacity: 1;
@@ -395,6 +402,7 @@
   .tone-glorious .m-num { color: var(--glorious); }
   .tone-luminous .m-num { color: var(--luminous); }
   .tone-servite .m-num { color: var(--servite); }
+  .tone-michael .m-num { color: var(--michael); }
 
   /* footer / wayfinding */
   .footer-bar {
@@ -632,6 +640,7 @@
           '<div class="cover-quick">' +
           '<button class="row" data-goto="peace-rosary"><span>A short devotion</span><span>The Peace Rosary</span></button>' +
           '<button class="row tone-servite" data-goto="seven-sorrows"><span>The Servite Rosary</span><span>The Seven Sorrows</span></button>' +
+          '<button class="row tone-michael" data-goto="st-michael-chaplet"><span>The Rosary of the Angels</span><span>Chaplet of St. Michael</span></button>' +
           '</div>'
         );
       }
@@ -927,6 +936,31 @@
         mystery("The Crucifixion", "Fortitude", "Mary stands near the cross as her Son dies, neither fleeing nor collapsing, present to him in his agony to the very end.", "Fortitude to remain present in love, even when nothing can be done but stay."),
         mystery("Jesus Is Taken Down from the Cross", "Hope amid grief", "Jesus&rsquo;s body is taken down from the cross and laid in his mother&rsquo;s arms, the Pietà: sorrow held with reverence and love.", "Hope that carries grief without being consumed by it."),
         mystery("The Burial of Jesus", "Quiet faith", "Jesus is laid in the tomb, and Mary waits in darkness and silence, not yet seeing the resurrection to come.", "A quiet faith that waits on God even before his answer is seen.")
+      ]
+    },
+    {
+      id: "st-michael-chaplet", group: "devotion", nav: "Chaplet of St. Michael", tone: "tone-michael",
+      eyebrow: "The Rosary of the Angels", title: "Chaplet of St. Michael", meta: "One Our Father and three Hail Marys for each choir of angels",
+      intro: '<div class="note"><p>Revealed, tradition holds, to a Portuguese nun, Antonia d&rsquo;Astonac, in the 1700s, and approved by Pope Pius IX in 1851. It honors the nine traditional choirs of angels, asking a particular grace through each one&rsquo;s intercession, and closes by invoking the four angels named in Scripture and tradition: Michael, Gabriel, Raphael, and one&rsquo;s own Guardian Angel.</p></div>' +
+        '<div class="versicle"><p class="versicle-label">Opening</p>' +
+        '<p><em>Sign of the Cross:</em> In the Name of the Father, and of the Son, and of the Holy Spirit. Amen.</p>' +
+        '<p><span class="vr">V.</span>O God, come to my assistance.<br><span class="vr">R.</span>O Lord, make haste to help me.</p>' +
+        '<p><span class="vr">V.</span>Glory be to the Father, and to the Son, and to the Holy Spirit.<br><span class="vr">R.</span>As it was in the beginning, is now, and ever shall be, world without end. Amen.</p></div>',
+      outro: '<div class="versicle"><p class="versicle-label">Closing</p>' +
+        '<p>One Our Father in honor of each: St. Michael, St. Gabriel, St. Raphael, and your Guardian Angel.</p>' +
+        '<p>O glorious prince St. Michael, chief and commander of the heavenly hosts, guardian of souls, vanquisher of rebel spirits: deliver us from all evil, we who turn to thee with confidence, and enable us by thy gracious protection to serve God more and more faithfully every day.</p>' +
+        '<p><span class="vr">V.</span>Pray for us, O glorious St. Michael, Prince of the Church of Jesus Christ.<br><span class="vr">R.</span>That we may be made worthy of his promises.</p>' +
+        '<p>Almighty and everlasting God, who by a prodigy of goodness and a merciful desire for the salvation of all, hast appointed the most glorious Archangel St. Michael Prince of thy Church: make us worthy, we beseech thee, to be delivered from all our enemies, that none of them may harass us at the hour of death, but that we may be brought by him into the presence of thy Divine Majesty. Through Christ our Lord. Amen.</p></div>',
+      mysteries: [
+        mystery("The Seraphim", "The fire of perfect charity", "Tradition holds the Seraphim to be the highest choir, closest to God, and often pictured as pure flame &mdash; a fitting image for love with nothing held back.", "By the intercession of St. Michael and the Choir of Seraphim, the fire of perfect charity."),
+        mystery("The Cherubim", "To leave the ways of sin", "Traditionally associated with knowledge of God and pictured guarding the way to Eden, the Cherubim are invoked here for clear sight of the right path.", "By the intercession of St. Michael and the Choir of Cherubim, the grace to leave the ways of sin and run in the paths of Christian perfection."),
+        mystery("The Thrones", "A sincere spirit of humility", "The Thrones are traditionally linked to God&rsquo;s justice and majesty, bearing up his throne &mdash; and so stand for the humility owed before it.", "By the intercession of St. Michael and the Choir of Thrones, a true and sincere spirit of humility."),
+        mystery("The Dominations", "To govern our passions", "Also called the Dominions, this choir is traditionally understood to regulate the duties of the angels below them &mdash; a fitting patron for self-mastery.", "By the intercession of St. Michael and the Choir of Dominations, the grace to govern our senses and overcome unruly passions."),
+        mystery("The Virtues", "Preservation from temptation", "Traditionally credited with working miracles on earth and strengthening believers, the Virtues are invoked against evil and the slide into temptation.", "By the intercession of St. Michael and the Choir of Virtues, preservation from evil and from falling into temptation."),
+        mystery("The Powers", "Protection from the devil&rsquo;s snares", "Held in tradition to restrain evil spirits and defend the created order, the Powers are asked here for direct protection from the devil&rsquo;s schemes.", "By the intercession of St. Michael and the Choir of Powers, protection of our souls against the snares and temptations of the devil."),
+        mystery("The Principalities", "A true spirit of obedience", "Traditionally understood to watch over nations, leaders, and communities, the Principalities are fitting patrons of obedience to rightful authority.", "By the intercession of St. Michael and the Choir of Principalities, a true spirit of obedience."),
+        mystery("The Archangels", "Perseverance in faith and good works", "Michael, Gabriel, and Raphael are themselves Archangels, sent to carry God&rsquo;s most important messages &mdash; invoked here for steadfastness to the end.", "By the intercession of St. Michael and the Choir of Archangels, perseverance in faith and in all good works, to attain the glory of Heaven."),
+        mystery("The Angels", "Protection in this life and the next", "The choir nearest to us, traditionally understood to include each person&rsquo;s own guardian angel, watching over daily life and the journey beyond it.", "By the intercession of St. Michael and the Choir of Angels, protection in this mortal life and safe conduct to the life to come.")
       ]
     }
   ];
