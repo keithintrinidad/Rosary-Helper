@@ -38,4 +38,4 @@ person who directed and commissioned its creation.
 
 ---
 
-© [Year] [Your Name]. Licensed under CC BY-NC-SA 4.0.
+© 2026 Keith Francis. Licensed under CC BY-NC-SA 4.0.
