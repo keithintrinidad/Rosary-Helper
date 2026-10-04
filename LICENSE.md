@@ -28,13 +28,17 @@ https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode
 ## Authorship & Attribution
 
 This application was built by **Claude**, an AI model created by
-**Anthropic**, from prompts and direction given by **Keith Francis, Github username keithintrinidad**. Keith Francis directed the app's design, content, and
-features through conversation with Claude, but did not write the code
-or prayer-page text directly.
+**Anthropic**, from prompts and direction given by **Keith Francis**
+([@keithintrinidad](https://github.com/keithintrinidad)). Keith
+directed the app's design, content, and features through conversation
+with Claude, but did not write the code or prayer-page text directly.
 
 Any copy, fork, or derivative of this project must retain this notice,
-crediting both Claude/Anthropic as the builder and [Your Name] as the
-person who directed and commissioned its creation.
+crediting both Claude/Anthropic as the builder and Keith Francis as
+the person who directed and commissioned its creation.
+
+A short version of this notice, and a summary of these terms, is also
+shown inside the app itself via the (i) information button.
 
 ---
 

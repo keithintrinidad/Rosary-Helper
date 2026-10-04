@@ -10,6 +10,8 @@ as an Android app with PWABuilder.
 
 - `index.html` — the whole app (prayers, mysteries, and the other
   devotions), self-contained apart from the two files below it needs.
+  Includes an "About This App" panel, behind the (i) button, with
+  authorship credit and a license summary.
 - `manifest.json` — name, icon, theme color, and `"display":
   "fullscreen"` so an installed copy opens with no browser toolbar
   or status bar.
@@ -45,8 +47,12 @@ cached copy for a while instead of fetching the update.
 
 This app is free to share and adapt — but never to sell, and any
 version made from it must stay free too. It was built by Claude
-(Anthropic), prompted and directed by **Keith Francis**. Full terms are
-in `LICENSE.md`.
+(Anthropic), prompted and directed by **Keith Francis**
+([@keithintrinidad](https://github.com/keithintrinidad)). Full terms
+are in `LICENSE.md`. The same credit and a license summary are also
+shown inside the app itself, behind the (i) information button —
+useful for anyone who only ever sees the installed app, not this
+repository (an APK install, say, carries no README with it).
 
 ## Turning this into an Android APK
 

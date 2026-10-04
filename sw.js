@@ -3,7 +3,7 @@
 // Bump CACHE_NAME any time index.html, manifest.json, or the icons
 // change, so returning visitors pick up the new version instead of
 // a stale cached copy.
-const CACHE_NAME = "rosary-companion-v1.2";
+const CACHE_NAME = "rosary-companion-v1";
 const ASSETS = [
   "./",
   "./index.html",

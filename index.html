@@ -3,7 +3,7 @@
   The Rosary — A Companion for Prayer
 
   Built by Claude, an AI model created by Anthropic, from prompts and
-  direction given by Keith Francis. Keith Francis directed the app's
+  direction given by Keith Francis. Keith directed the app's
   design, content, and features through conversation with Claude, but
   did not write this code or the prayer-page text directly.
 
@@ -495,6 +495,30 @@
   }
   .theme-toggle svg { width: 19px; height: 19px; stroke: var(--ink-soft); }
 
+  .info-btn {
+    position: fixed;
+    top: calc(14px + env(safe-area-inset-top));
+    left: calc(14px + env(safe-area-inset-left));
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    box-shadow: 0 4px 14px -6px var(--shadow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 5;
+  }
+  .info-btn svg { width: 19px; height: 19px; stroke: var(--ink-soft); }
+
+  .about-body { padding: 4px 22px 20px; }
+  .about-body .body-text p { margin-bottom: 14px; }
+  .about-body a { color: var(--burgundy); }
+  .about-body .note { margin-bottom: 16px; }
+  .about-body .note p { font-style: normal; }
+
   /* overlay menu */
   .overlay {
     position: fixed;
@@ -603,6 +627,14 @@
   <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></svg>
 </button>
 
+<button class="info-btn" id="infoBtn" aria-label="About this app">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="9"/>
+    <line x1="12" y1="11" x2="12" y2="16"/>
+    <circle cx="12" cy="7.6" r="0.9" fill="currentColor" stroke="none"/>
+  </svg>
+</button>
+
 <button class="fab" id="fabMenu" aria-label="Jump to a prayer or mystery">
   <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round">
     <circle cx="12" cy="4.5" r="1.4"/>
@@ -623,6 +655,26 @@
       <button class="menu-close" id="menuClose" aria-label="Close">&times;</button>
     </div>
     <div id="menuList"></div>
+  </div>
+</div>
+
+<div class="overlay" id="infoOverlay">
+  <div class="menu-sheet" id="infoSheet">
+    <div class="menu-head">
+      <h2>About This App</h2>
+      <button class="menu-close" id="infoClose" aria-label="Close">&times;</button>
+    </div>
+    <div class="about-body">
+      <div class="body-text">
+        <p><strong>How this was built.</strong> This app was built by Claude, an AI model created by Anthropic, from prompts and direction given by Keith Francis. Keith directed the app&rsquo;s design, content, and features through conversation with Claude, but did not write the code or prayer-page text directly.</p>
+      </div>
+      <div class="note">
+        <p><strong>License.</strong> Free to share and adapt &mdash; never for sale, and any version made from this one must stay free too. Licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>.</p>
+      </div>
+      <div class="body-text">
+        <p>Source code and the full license text: <a href="https://github.com/keithintrinidad/keithintrinidad.github.io" target="_blank" rel="noopener">github.com/keithintrinidad</a>.</p>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1064,7 +1116,7 @@
   document.addEventListener("keydown", function(e){
     if (e.key === "ArrowRight") show(idx+1, "next");
     if (e.key === "ArrowLeft") show(idx-1, "prev");
-    if (e.key === "Escape") closeMenu();
+    if (e.key === "Escape") { closeMenu(); closeInfo(); }
   });
 
   // menu
@@ -1105,6 +1157,14 @@
   document.getElementById("fabMenu").addEventListener("click", openMenu);
   document.getElementById("menuClose").addEventListener("click", closeMenu);
   overlay.addEventListener("click", function(e){ if (e.target === overlay) closeMenu(); });
+
+  // about / info panel
+  var infoOverlay = document.getElementById("infoOverlay");
+  function openInfo(){ infoOverlay.classList.add("open"); }
+  function closeInfo(){ infoOverlay.classList.remove("open"); }
+  document.getElementById("infoBtn").addEventListener("click", openInfo);
+  document.getElementById("infoClose").addEventListener("click", closeInfo);
+  infoOverlay.addEventListener("click", function(e){ if (e.target === infoOverlay) closeInfo(); });
 
   // theme toggle
   var sunPath = '<circle cx="12" cy="12" r="4.2"/><path d="M12 3v2.2M12 18.8V21M4.4 4.4l1.55 1.55M18.05 18.05l1.55 1.55M3 12h2.2M18.8 12H21M4.4 19.6l1.55-1.55M18.05 5.95l1.55-1.55"/>';
