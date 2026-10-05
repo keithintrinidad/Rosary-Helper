@@ -1,5 +1,8 @@
 # License
 
+**Use the app:** [keithintrinidad.github.io/Rosary-Helper](https://keithintrinidad.github.io/Rosary-Helper/)
+· **Source code:** [github.com/keithintrinidad/Rosary-Helper](https://github.com/keithintrinidad/Rosary-Helper)
+
 **The Rosary — A Companion for Prayer**, including its code, design, and
 prayer-page content, is licensed under the
 **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
@@ -39,6 +42,13 @@ the person who directed and commissioned its creation.
 
 A short version of this notice, and a summary of these terms, is also
 shown inside the app itself via the (i) information button.
+
+## Companion apps
+
+The same terms apply to these companion apps by the same author:
+
+- **Catholic Prayers** — [use the app](https://keithintrinidad.github.io/Catholic-Prayers/) · [source code](https://github.com/keithintrinidad/Catholic-Prayers)
+- **Bread of the Presence** — [use the app](https://keithintrinidad.github.io/Bread-of-the-Presence/) · [source code](https://github.com/keithintrinidad/Bread-of-the-Presence)
 
 ---
 

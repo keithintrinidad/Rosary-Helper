@@ -1,10 +1,13 @@
-# The Rosary — PWA bundle
+# The Rosary — A Companion for Prayer
+
+**Use the app:** [keithintrinidad.github.io/Rosary-Helper](https://keithintrinidad.github.io/Rosary-Helper/)
+· **Source code:** [github.com/keithintrinidad/Rosary-Helper](https://github.com/keithintrinidad/Rosary-Helper)
+
+Everything below describes the PWA bundle that powers it.
 
 Everything in this folder is meant to be uploaded together, as loose
-files (not inside another folder), to the root of a GitHub Pages
-site — ideally a `username.github.io` repo, so `.well-known/`
-verification works at the true domain root if you later package this
-as an Android app with PWABuilder.
+files (not inside another folder), to the root of a GitHub repo that
+is published with GitHub Pages.
 
 ## What's here
 
@@ -25,11 +28,11 @@ as an Android app with PWABuilder.
 
 ## Uploading to GitHub
 
-1. Create (or reuse) a repo named exactly `yourusername.github.io`.
-2. Upload these six files to its root — not nested in a subfolder.
+1. Create (or reuse) the repo, e.g. `Rosary-Helper`.
+2. Upload these files to its root — not nested in a subfolder.
 3. In the repo's **Settings → Pages**, set the source to the `main`
    branch, root folder, and save.
-4. Visit `https://yourusername.github.io` to confirm it loads.
+4. Visit `https://keithintrinidad.github.io/Rosary-Helper/` to confirm it loads.
 
 From there, "Add to Home Screen" (Android/Chrome) or "Add to Dock"
 (desktop Chrome/Edge) installs it as a proper PWA — fullscreen, with
@@ -54,11 +57,19 @@ shown inside the app itself, behind the (i) information button —
 useful for anyone who only ever sees the installed app, not this
 repository (an APK install, say, carries no README with it).
 
+## Companion apps
+
+Built the same way, under the same license:
+
+- **Catholic Prayers** — [use the app](https://keithintrinidad.github.io/Catholic-Prayers/) · [source code](https://github.com/keithintrinidad/Catholic-Prayers)
+- **Bread of the Presence** — [use the app](https://keithintrinidad.github.io/Bread-of-the-Presence/) · [source code](https://github.com/keithintrinidad/Bread-of-the-Presence)
+
 ## Turning this into an Android APK
 
-See the chat for the full walkthrough: run this site through
-**pwabuilder.com** once it's live on GitHub Pages, and set the
-Android package's Display Mode to **Fullscreen**. For the thin
-browser toolbar to disappear entirely (not just the status bar),
-you'll also need to add the `assetlinks.json` file PWABuilder gives
-you at `https://yourusername.github.io/.well-known/assetlinks.json`.
+Run the live site through **pwabuilder.com** and set the Android
+package's Display Mode to **Fullscreen**. Note that for the thin
+browser toolbar to disappear entirely (not just the status bar), the
+`assetlinks.json` file PWABuilder gives you must be served from the
+root of the domain, `https://keithintrinidad.github.io/.well-known/assetlinks.json`
+— which means it has to live in a repo named `keithintrinidad.github.io`,
+since this app is served from a sub-path of that domain.
