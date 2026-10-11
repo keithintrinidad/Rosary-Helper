@@ -51,6 +51,7 @@
     --luminous: #384F72;
     --servite: #5C3566;
     --michael: #4A5A66;
+    --mercy: #A83232;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
@@ -70,6 +71,7 @@
       --luminous: #7C97C4;
       --servite: #B58FC2;
       --michael: #9FB3C0;
+      --mercy: #E39A9A;
     }
   }
   :root[data-theme="dark"] {
@@ -89,6 +91,7 @@
     --luminous: #7C97C4;
     --servite: #B58FC2;
     --michael: #9FB3C0;
+    --mercy: #E39A9A;
   }
 
   * { box-sizing: border-box; }
@@ -141,6 +144,7 @@
   .sheet.tone-glorious::after,
   .sheet.tone-luminous::after,
   .sheet.tone-servite::after,
+  .sheet.tone-mercy::after,
   .sheet.tone-michael::after {
     content: "";
     position: absolute;
@@ -153,6 +157,7 @@
   .sheet.tone-luminous::after { background: var(--luminous); }
   .sheet.tone-servite::after { background: var(--servite); }
   .sheet.tone-michael::after { background: var(--michael); }
+  .sheet.tone-mercy::after { background: var(--mercy); }
 
   @keyframes flipNext {
     from { transform: rotateY(-10deg) scale(.97); opacity: 0; }
@@ -225,6 +230,7 @@
   .cover-quick .row.tone-luminous span:last-child { color: var(--luminous); }
   .cover-quick .row.tone-servite span:last-child { color: var(--servite); }
   .cover-quick .row.tone-michael span:last-child { color: var(--michael); }
+  .cover-quick .row.tone-mercy span:last-child { color: var(--mercy); }
   .cover-quick .row {
     width: 100%;
     background: none;
@@ -277,6 +283,12 @@
     color: var(--servite);
     margin-right: 2px;
   }
+
+  .inline-link {
+    background: none; border: none; padding: 0; font: inherit;
+    color: var(--burgundy); text-decoration: underline; cursor: pointer;
+  }
+  .sheet.tone-mercy .versicle .vr { color: var(--mercy); }
 
   .note {
     margin: 4px 0 20px;
@@ -706,6 +718,7 @@
           '<button class="row" data-goto="peace-rosary"><span>A short devotion</span><span>The Peace Rosary</span></button>' +
           '<button class="row tone-servite" data-goto="seven-sorrows"><span>The Servite Rosary</span><span>The Seven Sorrows</span></button>' +
           '<button class="row tone-michael" data-goto="st-michael-chaplet"><span>The Rosary of the Angels</span><span>Chaplet of St. Michael</span></button>' +
+          '<button class="row tone-mercy" data-goto="divine-mercy"><span>Given to St. Faustina</span><span>Divine Mercy Chaplet</span></button>' +
           '</div>'
         );
       }
@@ -1027,6 +1040,33 @@
         mystery("The Archangels", "Perseverance in faith and good works", "Michael, Gabriel, and Raphael are themselves Archangels, sent to carry God&rsquo;s most important messages &mdash; invoked here for steadfastness to the end.", "By the intercession of St. Michael and the Choir of Archangels, perseverance in faith and in all good works, to attain the glory of Heaven."),
         mystery("The Angels", "Protection in this life and the next", "The choir nearest to us, traditionally understood to include each person&rsquo;s own guardian angel, watching over daily life and the journey beyond it.", "By the intercession of St. Michael and the Choir of Angels, protection in this mortal life and safe conduct to the life to come.")
       ]
+    },
+    {
+      id: "divine-mercy", group: "devotion", nav: "Divine Mercy Chaplet", tone: "tone-mercy",
+      eyebrow: "Prayed on rosary beads", title: "Chaplet of Divine Mercy", meta: "Five decades, with prayers of its own",
+      render: function(){
+        function link(id, label){ return '<button class="inline-link" data-goto="' + id + '">' + label + '</button>'; }
+        return (
+          '<div class="note"><p>Given to St. Faustina Kowalska in 1935, and prayed on ordinary rosary beads. It is traditionally prayed at 3 p.m., the Hour of Mercy, when Jesus died; on the nine days before Divine Mercy Sunday (the Sunday after Easter) as a novena; and in the presence of the dying.</p></div>' +
+
+          '<div class="versicle"><p class="versicle-label">Opening</p>' +
+          '<p><em>Sign of the Cross:</em> In the Name of the Father, and of the Son, and of the Holy Spirit. Amen.</p>' +
+          '<p><em>Optional:</em> You expired, Jesus, but the source of life gushed forth for souls, and the ocean of mercy opened up for the whole world. O Fount of Life, unfathomable Divine Mercy, envelop the whole world and empty Yourself out upon us.</p>' +
+          '<p><em>Optional, three times:</em> O Blood and Water, which gushed forth from the Heart of Jesus as a fount of mercy for us, I trust in You!</p>' +
+          '<p>Then one ' + link("our-father", "Our Father") + ', one ' + link("hail-mary", "Hail Mary") + ', and the ' + link("creed", "Apostles&rsquo; Creed") + '.</p></div>' +
+
+          '<p class="litany-heading">Each of the five decades</p>' +
+          '<ol class="steps">' +
+          '<li><strong>On the large bead</strong>, pray the Eternal Father: <em>Eternal Father, I offer You the Body and Blood, Soul and Divinity of Your dearly beloved Son, Our Lord Jesus Christ, in atonement for our sins and those of the whole world.</em></li>' +
+          '<li><strong>On each of the ten small beads</strong>, pray: <em>For the sake of His sorrowful Passion, have mercy on us and on the whole world.</em></li>' +
+          '</ol>' +
+
+          '<div class="versicle" style="margin-top:16px;"><p class="versicle-label">Closing</p>' +
+          '<p>Three times: <em>Holy God, Holy Mighty One, Holy Immortal One, have mercy on us and on the whole world.</em></p>' +
+          '<p><em>Optional:</em> Eternal God, in whom mercy is endless and the treasury of compassion inexhaustible, look kindly upon us and increase Your mercy in us, that in difficult moments we might not despair nor become despondent, but with great confidence submit ourselves to Your holy will, which is Love and Mercy itself.</p>' +
+          '<p><em>Sign of the Cross:</em> In the Name of the Father, and of the Son, and of the Holy Spirit. Amen.</p></div>'
+        );
+      }
     }
   ];
 
