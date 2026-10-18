@@ -3,7 +3,7 @@
   "short_name": "Rosary",
   "description": "A flip-book companion for praying the Rosary, with every prayer and each set of mysteries a tap away.",
   "start_url": ".",
-  "id": "rosary-helper",
+  "id": ".",
   "scope": "./",
   "display": "fullscreen",
   "display_override": ["fullscreen", "standalone", "browser"],

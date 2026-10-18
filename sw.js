@@ -1,9 +1,9 @@
-// Service worker for "The Rosary" — caches the app shell so the page
-// still opens with no connection, after the first successful visit.
+// Service worker for "The Rosary" — opens the app from the cache first,
+// so it launches instantly even on a slow or missing connection, then
+// quietly refreshes the cached copy in the background when it can.
 // Bump CACHE_NAME any time index.html, manifest.json, or the icons
-// change, so returning visitors pick up the new version instead of
-// a stale cached copy.
-const CACHE_NAME = "rosary-companion-v1.6";
+// change, so returning visitors pick up the new version.
+const CACHE_NAME = "rosary-companion-v3";
 const ASSETS = [
   "./",
   "./index.html",
@@ -31,20 +31,30 @@ self.addEventListener("activate", (event) => {
 });
 
 self.addEventListener("fetch", (event) => {
-  if (event.request.method !== "GET") return;
+  const req = event.request;
+  if (req.method !== "GET") return;
+  if (new URL(req.url).origin !== self.location.origin) return;
 
-  event.respondWith(
-    caches.match(event.request).then((cached) => {
-      const network = fetch(event.request)
-        .then((response) => {
-          if (response && response.status === 200) {
-            const copy = response.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
-          }
-          return response;
-        })
-        .catch(() => cached);
-      return cached || network;
-    })
-  );
+  // Every page open (including launches from the home-screen icon, which
+  // may add a ?query string) is answered with the one cached index.html.
+  const isPage = req.mode === "navigate";
+  const key = isPage ? new Request("./index.html") : req;
+
+  event.respondWith((async () => {
+    const cache = await caches.open(CACHE_NAME);
+    const cached = await cache.match(key, { ignoreSearch: true });
+
+    // Refresh the cache in the background (never blocks the page).
+    const refresh = fetch(isPage ? key : req)
+      .then((res) => {
+        if (res && res.status === 200) cache.put(key, res.clone());
+        return res;
+      });
+
+    if (cached) {
+      event.waitUntil(refresh.catch(() => {}));
+      return cached;
+    }
+    return refresh; // first-ever visit: nothing cached yet, use the network
+  })());
 });
