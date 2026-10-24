@@ -3,7 +3,10 @@
 // quietly refreshes the cached copy in the background when it can.
 // Bump CACHE_NAME any time index.html, manifest.json, or the icons
 // change, so returning visitors pick up the new version.
-const CACHE_NAME = "rosary-companion-v1.7";
+const CACHE_NAME = "rosary-companion-v1.8";
+// All the apps share one origin (keithintrinidad.github.io) and so one pool of caches:
+// only ever remove this app's own old caches, never another app's.
+const CACHE_PREFIX = "rosary-companion-";
 const ASSETS = [
   "./",
   "./index.html",
@@ -23,7 +26,7 @@ self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
       Promise.all(
-        keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))
+        keys.filter((key) => key.startsWith(CACHE_PREFIX) && key !== CACHE_NAME).map((key) => caches.delete(key))
       )
     )
   );
